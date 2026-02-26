@@ -1,5 +1,5 @@
-import { InputHandler } from "./inputs";
-import { Player } from "./player";
+import { InputHandler } from "./inputs.js";
+import { Player } from "./player.js";
 
 /* ================================
    GAME CLASS
