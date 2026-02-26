@@ -1,5 +1,6 @@
 import { InputHandler } from "./inputs.js";
 import { Player } from "./player.js";
+import { TileMap } from "./tilemap.js";
 
 /* ================================
    GAME CLASS
@@ -10,6 +11,18 @@ class Game {
     this.ctx = canvas.getContext("2d");
     this.input = new InputHandler();
     this.player = new Player(100, 100);
+    this.tilemap = new TileMap(
+      [
+        [0, 0, 0, 0, 0],
+        [0, -1, -1, -1, 0],
+        [0, -1, 0, -1, 0],
+        [0, -1, -1, -1, 0],
+        [0, 0, 0, 0, 0],
+      ],
+      64,
+      new Image(), // placeholder, load your tileset image here
+      4 // number of columns in tileset
+    );
     this.lastTime = 0;
 
     this.resize();
