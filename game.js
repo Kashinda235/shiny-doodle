@@ -1,6 +1,6 @@
 import { InputHandler } from "./inputs.js";
 import { Player } from "./player.js";
-import { TileMap } from "./tilemap.js";
+import { TiledBackground } from "./tiledBG.js";
 
 /* ================================
    GAME CLASS
@@ -11,18 +11,7 @@ class Game {
     this.ctx = canvas.getContext("2d");
     this.input = new InputHandler();
     this.player = new Player(100, 100);
-    this.tilemap = new TileMap(
-      [
-        [0, 0, 0, 0, 0],
-        [0, -1, -1, -1, 0],
-        [0, -1, 0, -1, 0],
-        [0, -1, -1, -1, 0],
-        [0, 0, 0, 0, 0],
-      ],
-      64,
-      new Image(), // placeholder, load your tileset image here
-      4 // number of columns in tileset
-    );
+    this.background = new TiledBackground(50, "#333", "#555");
     this.lastTime = 0;
 
     this.resize();
@@ -42,6 +31,7 @@ class Game {
 
   render() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.background.draw(this.ctx, this.canvas.width, this.canvas.height, 12, 15);
     this.player.draw(this.ctx);
   }
 
