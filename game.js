@@ -16,8 +16,8 @@ class Game {
     this.camera = new Camera(
       this.canvas.width,
       this.canvas.height,
-      4000, // world width
-      4000  // world height
+      this.canvas.width * 2, // world width
+      this.canvas.height * 2 // world height
     );
     this.lastTime = 0;
 

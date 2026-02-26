@@ -21,14 +21,14 @@ export class Camera {
         this.worldHeight = worldHeight;
 
         /* ---------- smoothing ---------- */
-        this.smoothness = 0.1; // smaller = smoother
+        this.smoothness = 0.05; // smaller = smoother
 
         /* ---------- dead zone ---------- */
         this.deadZone = {
         x: viewWidth / 2 - 100,
-        y: viewHeight / 2 - 80,
+        y: viewHeight / 2 - 100,
         width: 200,
-        height: 160
+        height: 200
         };
 
         /* ---------- shake ---------- */
@@ -46,30 +46,33 @@ export class Camera {
         const targetScreenX = target.x - this.x;
         const targetScreenY = target.y - this.y;
 
-        let targetCamX = this.x;
-        let targetCamY = this.y;
+        // let targetCamX = this.x;
+        // let targetCamY = this.y;
 
-        // horizontal dead zone
-        if (targetScreenX < this.deadZone.x) {
-        targetCamX = target.x - this.deadZone.x;
-        } else if (
-        targetScreenX >
-        this.deadZone.x + this.deadZone.width
-        ) {
-        targetCamX =
-            target.x - (this.deadZone.x + this.deadZone.width);
-        }
+        let targetCamX = targetScreenX - this.viewWidth;
+        let targetCamY = targetScreenY - this.viewHeight;
 
-        // vertical dead zone
-        if (targetScreenY < this.deadZone.y) {
-        targetCamY = target.y - this.deadZone.y;
-        } else if (
-        targetScreenY >
-        this.deadZone.y + this.deadZone.height
-        ) {
-        targetCamY =
-            target.y - (this.deadZone.y + this.deadZone.height);
-        }
+        // // horizontal dead zone
+        // if (targetScreenX < this.deadZone.x) {
+        // targetCamX = target.x - this.deadZone.x;
+        // } else if (
+        // targetScreenX >
+        // this.deadZone.x + this.deadZone.width
+        // ) {
+        // targetCamX =
+        //     target.x - (this.deadZone.x + this.deadZone.width);
+        // }
+
+        // // vertical dead zone
+        // if (targetScreenY < this.deadZone.y) {
+        // targetCamY = target.y - this.deadZone.y;
+        // } else if (
+        // targetScreenY >
+        // this.deadZone.y + this.deadZone.height
+        // ) {
+        // targetCamY =
+        //     target.y - (this.deadZone.y + this.deadZone.height);
+        // }
 
         // smoothing (LERP)
         this.x += (targetCamX - this.x) * this.smoothness;
