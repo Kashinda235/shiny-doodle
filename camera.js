@@ -31,6 +31,13 @@ export class Camera {
         height: 200
         };
 
+        /* ---------- zoom ---------- */
+        this.zoom = 1;
+        this.targetZoom = 1;
+        this.zoomSmoothness = 0.08;
+        this.minZoom = 0.5;
+        this.maxZoom = 3;
+        
         /* ---------- shake ---------- */
         this.shakeTime = 0;
         this.shakeDuration = 0;
@@ -86,14 +93,17 @@ export class Camera {
         WORLD BOUNDS
     ===================================== */
     clampToWorld() {
+        const visibleWidth = this.viewWidth / this.zoom;
+        const visibleHeight = this.viewHeight / this.zoom;
+
         this.x = Math.max(
         0,
-        Math.min(this.x, this.worldWidth - this.viewWidth)
+        Math.min(this.x, this.worldWidth - visibleWidth)
         );
 
         this.y = Math.max(
         0,
-        Math.min(this.y, this.worldHeight - this.viewHeight)
+        Math.min(this.y, this.worldHeight - visibleHeight)
         );
     }
 
@@ -118,6 +128,32 @@ export class Camera {
         this.shakeOffsetX = 0;
         this.shakeOffsetY = 0;
         }
+    }
+
+    /* =====================================
+        ZOOM CONTROL
+    ===================================== */
+    setZoom(value) {
+        this.targetZoom = Math.max(
+        this.minZoom,
+        Math.min(this.maxZoom, value)
+        );
+    }
+
+    zoomIn(amount = 0.1) {
+        this.setZoom(this.targetZoom + amount);
+    }
+
+    zoomOut(amount = 0.1) {
+        this.setZoom(this.targetZoom - amount);
+    }
+
+    updateZoom(input) {
+        // smooth zoom interpolation
+        if (input.keys["Equal"]) this.zoomIn();   // +
+        if (input.keys["Minus"]) this.zoomOut();  // -
+        this.zoom += (this.targetZoom - this.zoom) * this.zoomSmoothness;
+        console.log(this.targetZoom);
     }
 
     /* =====================================

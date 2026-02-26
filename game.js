@@ -35,6 +35,7 @@ class Game {
   update(deltaTime) {
     this.player.update(deltaTime, this.input);
     this.camera.follow(this.player, deltaTime);
+    this.camera.updateZoom(this.input);
   }
 
   render() {
@@ -77,3 +78,4 @@ class Game {
 ================================ */
 const canvas = document.getElementById("gameCanvas");
 new Game(canvas);
+
