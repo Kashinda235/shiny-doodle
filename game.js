@@ -1,3 +1,4 @@
+import { Camera } from "./camera.js";
 import { InputHandler } from "./inputs.js";
 import { Player } from "./player.js";
 import { TiledBackground } from "./tiledBG.js";
@@ -11,7 +12,8 @@ class Game {
     this.ctx = canvas.getContext("2d");
     this.input = new InputHandler();
     this.player = new Player(100, 100);
-    this.background = new TiledBackground(50, "#333", "#555");
+    this.background = new TiledBackground();
+    this.camera = new Camera(this.canvas.width, this.canvas.height);
     this.lastTime = 0;
 
     this.resize();
@@ -27,12 +29,19 @@ class Game {
 
   update(deltaTime) {
     this.player.update(deltaTime, this.input);
+    this.camera.follow(this.player);
   }
 
   render() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.background.draw(this.ctx, this.canvas.width, this.canvas.height, 12, 15);
-    this.player.draw(this.ctx);
+    this.background.draw(
+      this.ctx,
+      this.canvas.width,
+      this.canvas.height,
+      this.camera.x,
+      this.camera.y
+    );
+    this.player.draw(this.ctx, this.camera);
   }
 
   gameLoop(timestamp) {
