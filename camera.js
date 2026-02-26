@@ -161,12 +161,12 @@ export class Camera {
     ===================================== */
     apply(ctx) {
         ctx.setTransform(
-        1,
-        0,
-        0,
-        1,
-        -Math.floor(this.x + this.shakeOffsetX),
-        -Math.floor(this.y + this.shakeOffsetY)
+            this.zoom,
+            0,
+            0,
+            this.zoom,
+            -Math.floor((this.x + this.shakeOffsetX) * this.zoom),
+            -Math.floor((this.y + this.shakeOffsetY) * this.zoom)
         );
     }
 
