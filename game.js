@@ -13,7 +13,12 @@ class Game {
     this.input = new InputHandler();
     this.player = new Player(100, 100);
     this.background = new TiledBackground();
-    this.camera = new Camera(this.canvas.width, this.canvas.height);
+    this.camera = new Camera(
+      this.canvas.width,
+      this.canvas.height,
+      4000, // world width
+      4000  // world height
+    );
     this.lastTime = 0;
 
     this.resize();
@@ -29,19 +34,31 @@ class Game {
 
   update(deltaTime) {
     this.player.update(deltaTime, this.input);
-    this.camera.follow(this.player);
+    this.camera.follow(this.player, deltaTime);
   }
 
   render() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    const ctx = this.ctx;
+
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    // apply camera offset
+    this.camera.apply(ctx);
+
+    // draw WORLD objects
     this.background.draw(
-      this.ctx,
+      ctx,
       this.canvas.width,
       this.canvas.height,
       this.camera.x,
       this.camera.y
     );
-    this.player.draw(this.ctx, this.camera);
+    this.player.draw(ctx, this.camera);
+
+    // reset for UI
+    this.camera.reset(ctx);
+
+    // draw UI here ...
   }
 
   gameLoop(timestamp) {
