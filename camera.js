@@ -53,11 +53,15 @@ export class Camera {
         const targetScreenX = target.x - this.x;
         const targetScreenY = target.y - this.y;
 
+        // visible world area changes with zoom
+        const visibleWidth = this.viewWidth / this.zoom;
+        const visibleHeight = this.viewHeight / this.zoom;
+
+        let targetCamX = targetScreenX - visibleWidth / 2;
+        let targetCamY = targetScreenY - visibleHeight / 2;
+
         // let targetCamX = this.x;
         // let targetCamY = this.y;
-
-        let targetCamX = targetScreenX - this.viewWidth;
-        let targetCamY = targetScreenY - this.viewHeight;
 
         // // horizontal dead zone
         // if (targetScreenX < this.deadZone.x) {
