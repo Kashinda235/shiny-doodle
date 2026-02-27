@@ -6,16 +6,18 @@ export class Debugger {
     constructor(camera) {
         this.dbgCamera = new CameraDebugger(camera);
         this.fps = new FPSCounter();
+        this.enabled = 0;
     }
 
-    update() {
-        if (this.input.keys["Backquote"]) {
-            this.cameraDebugger.enabled = !this.cameraDebugger.enabled;
+    update(input) {
+        if (input.keys["Backquote"]) {
+            this.enabled = !this.enabled;
         }
         this.fps.update();
     } 
 
     draw(ctx) {
+        if(!this.enabled) return;
         this.dbgCamera.draw(ctx);
         this.fps.draw(ctx);
     }

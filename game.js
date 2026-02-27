@@ -37,6 +37,7 @@ class Game {
   update(deltaTime) {
     this.player.update(deltaTime, this.input);
     this.camera.follow(this.player, deltaTime, this.input);
+    this.debugger.update(this.input);
     // this.camera.updateZoom(this.input);
     // this.camera.updateShake(deltaTime, this.input);
   }
