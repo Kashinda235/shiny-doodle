@@ -49,7 +49,7 @@ export class Camera {
     /* =====================================
         FOLLOW TARGET WITH DEAD ZONE + SMOOTH
     ===================================== */
-    follow(target, dt) {
+    follow(target, dt, input) {
         const targetScreenX = target.x - this.x;
         const targetScreenY = target.y - this.y;
 
@@ -89,8 +89,12 @@ export class Camera {
         this.x += (targetCamX - this.x) * this.smoothness;
         this.y += (targetCamY - this.y) * this.smoothness;
 
+        // Camera Shake trigger (for testing)
+        if (input.keys["Space"]) this.shake();
+
         this.clampToWorld();
         this.updateShake(dt);
+        this.updateZoom(input);
     }
 
     /* =====================================
