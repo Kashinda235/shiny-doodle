@@ -1,4 +1,5 @@
 import { Camera } from "./camera.js";
+import { Debugger } from "./Debugger.js";
 import { InputHandler } from "./inputs.js";
 import { Player } from "./player.js";
 import { TiledBackground } from "./tiledBG.js";
@@ -16,9 +17,10 @@ class Game {
     this.camera = new Camera(
       this.canvas.width,
       this.canvas.height,
-      this.canvas.width * 2, // world width
-      this.canvas.height * 2 // world height
+      1300, // world width
+      400 // world height
     );
+    this.debugger = new Debugger(this.camera);
     this.lastTime = 0;
 
     this.resize();
@@ -55,7 +57,11 @@ class Game {
       this.camera.x,
       this.camera.y
     );
+    // this.background.DRAW(ctx, this.camera);
     this.player.draw(ctx, this.camera);
+
+    // debug overlay (in world space)
+    this.debugger.draw(ctx);
 
     // reset for UI
     this.camera.reset(ctx);

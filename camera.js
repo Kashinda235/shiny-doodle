@@ -161,7 +161,6 @@ export class Camera {
         if (input.keys["Equal"]) this.zoomIn();   // +
         if (input.keys["Minus"]) this.zoomOut();  // -
         this.zoom += (this.targetZoom - this.zoom) * this.zoomSmoothness;
-        console.log(this.targetZoom);
     }
 
     /* =====================================
