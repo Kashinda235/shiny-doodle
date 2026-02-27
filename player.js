@@ -23,8 +23,11 @@ export class Player {
             if (rightKeys.some(key => input.keys[key])) this.x += this.speed * deltaTime;
     }
 
-    draw(ctx) {
+    draw(ctx, camera) {
+        const screenX = this.x - camera.x;
+        const screenY = this.y - camera.y;
+
         ctx.fillStyle = "lime";
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.fillRect(screenX, screenY, this.width, this.height);
     }
 }

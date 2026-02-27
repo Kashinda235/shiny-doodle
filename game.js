@@ -1,5 +1,7 @@
+import { Camera } from "./camera.js";
 import { InputHandler } from "./inputs.js";
 import { Player } from "./player.js";
+import { TiledBackground } from "./tiledBG.js";
 
 /* ================================
    GAME CLASS
@@ -10,6 +12,13 @@ class Game {
     this.ctx = canvas.getContext("2d");
     this.input = new InputHandler();
     this.player = new Player(100, 100);
+    this.background = new TiledBackground();
+    this.camera = new Camera(
+      this.canvas.width,
+      this.canvas.height,
+      this.canvas.width * 2, // world width
+      this.canvas.height * 2 // world height
+    );
     this.lastTime = 0;
 
     this.resize();
@@ -25,11 +34,32 @@ class Game {
 
   update(deltaTime) {
     this.player.update(deltaTime, this.input);
+    this.camera.follow(this.player, deltaTime);
+    this.camera.updateZoom(this.input);
   }
 
   render() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.player.draw(this.ctx);
+    const ctx = this.ctx;
+
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    // apply camera offset
+    this.camera.apply(ctx);
+
+    // draw WORLD objects
+    this.background.draw(
+      ctx,
+      this.canvas.width,
+      this.canvas.height,
+      this.camera.x,
+      this.camera.y
+    );
+    this.player.draw(ctx, this.camera);
+
+    // reset for UI
+    this.camera.reset(ctx);
+
+    // draw UI here ...
   }
 
   gameLoop(timestamp) {
@@ -48,3 +78,4 @@ class Game {
 ================================ */
 const canvas = document.getElementById("gameCanvas");
 new Game(canvas);
+
